@@ -17,14 +17,12 @@ image_cropped = ImageOps.crop(image, border=20) #Retira a borda
 image_cropped2 = image.crop(box=(30, 30, 50, 300)) #Box que sobrará da imagem
 #image_cropped2.show()
 
-# fit - ImagesOps ...
-
+# fit - ImagesOps
+image_cropped3 = ImageOps.fit(image, size=(200,500)) #Resize cortando a imagem
+# image_cropped3.show()
 
 """ -=Pasting/Colar=- """
 # box = tupla(left, upper)
 # mask:Image = ......
 image2.paste(fundo_vermelho, box=(10,200))
-image2.show()
-
-
-
+# image2.show()

@@ -7,7 +7,6 @@ image = Image.open("assets/2.jpg")
 image2 = Image.open("assets/1.jpg")
 
 """ Flip/Espelhamento """
-
 # flip - ImageOps
 #Inverte a imagem verticalmente (de cima para baixo).
 image = ImageOps.flip(image)
