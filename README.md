@@ -1,25 +1,25 @@
-# **Resumo: Operações Lógicas e Aritméticas em Imagens Digitais**
+## **Detecção de pontos isolados**
 
-Nesta seção do livro "Processamento Digital de Imagens" de Marques Filho e Vieira Neto, são abordadas as operações lógicas e aritméticas aplicadas a imagens digitais. 
+A seguinte máscara é um exemplo de operador de convolução que, quando aplicado a uma imagem, destacará pixels brilhantes circundados por pixels mais escuros. É conhecido por filtro passa-altas.
 
-## **Operações Pixel a Pixel**
+![filtro](./assets/passa-altas.png)
 
-Após a digitalização, uma imagem é tratada como uma matriz de inteiros e pode ser manipulada numericamente usando operações lógicas ou aritméticas. Estas operações podem ser realizadas de duas maneiras:
+## **Detecção de linhas**
 
-- **Operações Pixel a Pixel**: São representadas pela notação **`X opn Y = Z`**, onde **`X`** e **`Y`** podem ser imagens (matrizes) ou escalares, **`Z`** é uma matriz e **`opn`** é um operador aritmético (+, -, *, /) ou lógico (AND, OR, XOR).
+As máscaras a seguir podem ser utilizadas para a detecção de linhas horizontais e verticais (acima) e diagonais (abaixo).
 
-## **Operações Aritméticas Pixel a Pixel**
+![filtro 2](./assets/detecta-linhas.png)
 
-Ao realizar operações aritméticas em imagens, é importante considerar problemas de underflow e overflow. Existem duas alternativas para lidar com esses problemas:
+## **Detecção de bordas**
 
-- Manter resultados intermediários em uma matriz que permita valores negativos e/ou maiores que o máximo permitido e, em seguida, normalizar esses valores.
+Define-se **borda como a fronteira entre duas regiões cujos níveis de cinza predominantes são razoavelmente diferentes.** Podem-se definir bordas de textura e bordas de cor em imagens onde texturas ou a cor, respectivamente, são as mais importantes, mas aqui apenas são tratadas bordas de luminosidade. Para detecção de bordas, são usadas as seguintes máscaras:
 
-![formula](./assets/formula.png)
+![filtro 3](./assets/detecta-bordas.png)
 
-- Truncar valores maiores que o máximo permitido e valores negativos, ajustando-os a 255 e 0, respectivamente.
+Existe também o **operador laplaciano**, que é definido por:
 
-![tabela](./assets/tabela.png)
+![operador laplaciano](./assets/laplaciano.png)
 
-## **Operações Lógicas Pixel a Pixel**
+E suas máscaras podem ser definidas por:
 
-Todas as operações lógicas, incluindo NOT, podem ser aplicadas a imagens, mesmo quando elas têm múltiplos tons de cinza. Elas são mais compreensíveis quando aplicadas a imagens binárias, mas também podem ser usadas em imagens com vários tons de cinza.
+![mascara laplaciana](./assets/laplaciano-máscara.png)
