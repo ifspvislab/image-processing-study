@@ -1,3 +1,7 @@
+# **Resumo: Detecção de pontos isolados, linhas e bordas**
+
+Nesta seção do livro "Processamento Digital de Imagens" de Marques Filho e Vieira Neto, são abordados os tópicos sobre detecção de pontos isolados, linhas e bordas 
+
 ## **Detecção de pontos isolados**
 
 A seguinte máscara é um exemplo de operador de convolução que, quando aplicado a uma imagem, destacará pixels brilhantes circundados por pixels mais escuros. É conhecido por filtro passa-altas.
