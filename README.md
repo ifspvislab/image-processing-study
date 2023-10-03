@@ -22,7 +22,7 @@ A mediana m de um conjunto de n elementos é o valor tal que metade dos n elemen
 
 Seja uma imagem ruidosa **g(x,y) = f(x,y)+j(x,y)** onde f(x,y) é a imagem original e j(x,y) é um padrão de ruído aditivo de média zero e descorrelacionado, que se sobrepõe à imagem. Supondo também a existência de M imagens ruidosas, cada qual adquirida em um instante diferente, pode-se calcular uma imagem média na qual a influência do ruído terá sido minimizada: 
 
-![filtro 2](./assets/filtro_media_multiplas_imagens.png)
+![filtro 2](./assets/filtro_media_mutiplas_imagens.png)
 
 Quanto maior for o valor de M, menor a variância dos pixels de g(x,y) e mais a imagem g(x,y) irá se aproximar de f(x,y).
 
