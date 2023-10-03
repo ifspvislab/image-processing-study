@@ -1,31 +1,36 @@
-# **Resumo: Suavização de Imagens no Domínio Espacial**
+# **Resumo: Realce de imagens no domínio espacial**
 
-Nesta seção do livro "Processamento Digital de Imagens" de Marques Filho e Vieira Neto, são abordados os tópicos sobre a suavização de imagens no domínio espacial.
+Nesta seção do livro "Processamento Digital de Imagens" de Marques Filho e Vieira Neto, são abordados os tópicos sobre o realce de imagens no domínio espacial.
 
-O uso de máscaras espaciais no processamento de imagens é normalmente denominado filtragem espacial e as máscaras são conhecidas como filtros espaciais. 
+O principal objetivo das técnicas de realce é o de destacar detalhes finos na imagem.
 
-Os filtros são denominados **"passa-baixas"** quando atenuam ou eliminam as componentes de alta frequência no domínio das transformadas de Fourier. Logo, o efeito desse filtro é a de suavizar a imagem, provocando um leve **borramento** dela através do uso de máscaras de convolução.
+## **Filtro passa-altas básico**
 
-## **Filtro da Média (Linear)**
+Deve-se possuir uma máscara com coeficientes positivos nas proximidades de seu centro e negativos longe dele. Um exemplo é uma máscara 3x3, em que o seu pixel central deve ser positivo e todos seus oito vizinhos negativos.
 
-Pode ser implementada com a construção de uma máscara 3x3 com todos seus coeficientes iguais a 1, dividindo o resultado da convolução por um fator de normalização, neste caso igual a 9. Deve-se ter em mente que quanto maior o tamanho da máscara, maior o grau de borramento da imagem resultante.
+![filtro](./assets/foto_passa_altas.png)
 
-![filtro](./assets/filtro_media.png)
+## **Realce por diferenciação**
 
-## **Filtro da Mediana (Não-Linear)**
+O cálculo da média dos pixels em um trecho de imagem produz como efeito a remoção de seus componentes de alta frequência e o conceito de média é análogo à operação de integração, logo, a diferenciação irá enfatizar os componentes de alta frequência presentes numa imagem.
 
-O nível de cinza do pixel central da janela é substituído pela mediana dos pixels situados em sua vizinhança, assim será possível preservar bordas e detalhes finos da imagem.
+O método mais usual de diferenciação em aplicações de processamento de imagens é o gradiente. O gradiente de f(x,y) em um certo ponto (x,y) é definido como o vetor:
 
-A mediana m de um conjunto de n elementos é o valor tal que metade dos n elementos do conjunto situem-se abaixo de m e a outra metade acima de m. Quando n é ímpar, a mediana é o próprio elemento central do conjunto ordenado. Nos casos em que n é par, a mediana é calculada pela média aritmética dos dois elementos mais próximos do centro.
+![filtro 2](./assets/foto_realce_por_diferenciacao.png)
 
-## **Filtro da Média de Múltiplas Imagens**
+A magnitude deste vetor é dada por: 
 
-Seja uma imagem ruidosa **g(x,y) = f(x,y)+j(x,y)** onde f(x,y) é a imagem original e j(x,y) é um padrão de ruído aditivo de média zero e descorrelacionado, que se sobrepõe à imagem. Supondo também a existência de M imagens ruidosas, cada qual adquirida em um instante diferente, pode-se calcular uma imagem média na qual a influência do ruído terá sido minimizada: 
+![filtro 3](./assets/foto_realce_por_diferenciacao2.png)
 
-![filtro 2](./assets/filtro_media_mutiplas_imagens.png)
+## **Filtragem high-boost**
 
-Quanto maior for o valor de M, menor a variância dos pixels de g(x,y) e mais a imagem g(x,y) irá se aproximar de f(x,y).
+A filtragem passa-altas também pode ser obtida subtraindo de uma imagem original uma versão filtrada por um filtro passa-baixas. Assim sendo, o filtro high-boost é uma extensão dessa ideia, ou seja, a imagem original é multiplicada por um fator de amplificação A: 
 
-## **Filtro da Média dos k Vizinhos Mais Próximos**
+![filtro 4](./assets/foto_filtragem_high_boost.png)
 
-O pixel central da janela é substituído pela média dos k vizinhos cujas amplitudes mais se aproximam da amplitude do pixel central. Portanto, seu objetivo é evitar incluir no cálculo da média valores que possam estar sob a janela em decorrência de bordas ou regiões de alto contraste. Quanto maior o valor de k, mais o desempenho deste filtro se aproximará do filtro da média.
+Se A = 1, o filtro se comporta de forma idêntica a um passa-altas. 
+Se A > 1, parte da imagem original é adicionada ao resultado, restaurando parcialmente os componentes de baixa frequência. O resultado é uma imagem que se parece com a original, com um grau relativo de realce das bordas, dependente do valor de A.
+
+Exemplo de máscara utilizado para filtragem high-boost:
+
+![filtro 5](./assets/foto_filtragem_high_boost2.png)
