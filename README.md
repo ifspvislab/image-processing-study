@@ -12,12 +12,7 @@ Nesta técnica, o nível de cinza do pixel central da janela é substituído pel
 
 ### **Filtro da média dos k vizinhos mais próximos**
 
-Esta técnica, descrita em [Davis e Rosenfeld 1978], consiste em uma variação do método de 
-filtragem pela média, na qual o pixel central da janela é substituído pela média dos k vizinhos 
-cujas amplitudes mais se aproximam da amplitude do pixel central. Seu objetivo é 
-deliberadamente evitar incluir no cálculo da média valores que possam estar sob a janela em 
-decorrência de bordas ou regiões de alto contraste. Quanto maior o valor de k, mais o 
-desempenho deste filtro se aproximará do filtro da média. 
+Esta técnica, descrita em [Davis e Rosenfeld 1978], consiste em uma variação do método de filtragem pela média, na qual o pixel central da janela é substituído pela média dos k vizinhos cujas amplitudes mais se aproximam da amplitude do pixel central. Seu objetivo é deliberadamente evitar incluir no cálculo da média valores que possam estar sob a janela em decorrência de bordas ou regiões de alto contraste. Quanto maior o valor de k, mais o desempenho deste filtro se aproximará do filtro da média. 
 
 ## Filtragem no Domínio da Frequência
 
@@ -33,28 +28,23 @@ Sendo F(u,v) a transformada de Fourier da imagem a ser processada e sendo G(u,v)
 
 Um filtro passa-baixas 2-D ideal é aquele cuja função de transferência satisfaz a relação:
 
-![formula](./assets/formula_passa_baixas_ideal.jpg)
+![formula](./assets/formula_passa_baixa_ideal.jpg)
 
-onde D0 é um valor não-negativo (análogo à frequência de corte de um filtro 1-D), e D(u,v) é a 
-distância do ponto (u,v) à origem do plano de frequência; isto é,
+onde D0 é um valor não-negativo (análogo à frequência de corte de um filtro 1-D), e D(u,v) é a distância do ponto (u,v) à origem do plano de frequência; isto é,
 
 ![formula](./assets/formula_distancia_do_ponto_de_frequencia.jpg)
 
 ### **Filtro passa-baixas Butterworth**
 
-Um filtro passa-baixas realizável em hardware é o filtro Butterworth. Um filtro Butterworth de 
-ordem n e com frequência de corte a uma distância D0 da origem possui função de transferência 
-dada pela equação:
+Um filtro passa-baixas realizável em hardware é o filtro Butterworth. Um filtro Butterworth de ordem n e com frequência de corte a uma distância D0 da origem possui função de transferência dada pela equação:
 
-![formula](./assets/formula_passa_baixas_butterworth.jpg)
+![formula](./assets/formula_passa_baixa_butterworth.jpg)
 
 onde D(u,v) é dado pela equação de distância do ponto (u,v) à origem do plano de frequência.
 
 ### **Filtro passa-altas (FPA)**
 
-O objetivo do uso de filtros passa-altas em imagens é o realce de suas regiões de alta frequência, 
-tais como bordas e/ou texturas ricas em variações abruptas de níveis de cinza. Para o projeto de filtros passa-altas no domínio da frequência, aplicam-se as mesmas considerações feitas para os 
-filtros passa-baixas, com a exceção, óbvia, do comportamento em frequência desejado.
+O objetivo do uso de filtros passa-altas em imagens é o realce de suas regiões de alta frequência, tais como bordas e/ou texturas ricas em variações abruptas de níveis de cinza. Para o projeto de filtros passa-altas no domínio da frequência, aplicam-se as mesmas considerações feitas para os filtros passa-baixas, com a exceção, óbvia, do comportamento em frequência desejado.
 
 ### **Filtro passa-altas idea**
 
@@ -62,33 +52,19 @@ Um filtro passa-altas 2-D ideal é aquele cuja função de transferência satisf
 
 ![formula](./assets/formula_passa_alta_ideal.jpg)
 
-onde D0 é a 'distância de corte' do filtro e D(u,v) é a distância do ponto (u,v) à origem do plano 
-de frequência
+onde D0 é a 'distância de corte' do filtro e D(u,v) é a distância do ponto (u,v) à origem do plano de frequência
 
 ### **Filtro passa-altas Butterworth**
 
-Um FPA Butterworth de ordem n e com frequência de corte a uma distância D0 da origem 
-possui função de transferência dada pela equação:
+Um FPA Butterworth de ordem n e com frequência de corte a uma distância D0 da origem possui função de transferência dada pela equação:
 
 ![formula](./assets/formula_passa_alta_butterworth.jpg)
 
-A filtragem passa-altas usando um filtro Butterworth apresenta como desvantagem a 
-excessiva atenuação dos componentes de baixa frequência. Este problema é solucionado com a 
-técnica denominada 'ênfase em alta frequência', que consiste basicamente em adicionar uma 
-constante à função de transferência do filtro passa-altas de modo a preservar os componentes de 
-baixa frequência. A técnica de ênfase em alta frequência sozinha não produz um 
-resultado muito melhor que o da filtragem passa-altas convencional; porém, a aplicação da 
-ênfase em alta frequência seguida da equalização de histograma pode produzir melhores 
-resultados.
+A filtragem passa-altas usando um filtro Butterworth apresenta como desvantagem a excessiva atenuação dos componentes de baixa frequência. Este problema é solucionado com a técnica denominada 'ênfase em alta frequência', que consiste basicamente em adicionar uma constante à função de transferência do filtro passa-altas de modo a preservar os componentes de baixa frequência. A técnica de ênfase em alta frequência sozinha não produz um resultado muito melhor que o da filtragem passa-altas convencional. Porém, a aplicação da ênfase em alta frequência seguida da equalização de histograma pode produzir melhores resultados.
 
 ## **Filtragem homomórfica**
 
-O modelo iluminância-refletância pode ser usado como base para uma 
-técnica de filtragem no domínio da frequência que é útil para aprimorar a qualidade de uma 
-imagem através da compressão da faixa dinâmica de brilho simultaneamente com o aumento de 
-contraste. 
-
-A formulação matemática dos filtros homomórficos parte da equação que relaciona uma 
-imagem f(x,y) com suas componentes de iluminância e refletância:
+O modelo iluminância-refletância pode ser usado como base para uma técnica de filtragem no domínio da frequência que é útil para aprimorar a qualidade de uma imagem através da compressão da faixa dinâmica de brilho simultaneamente com o aumento 
+de contraste. A formulação matemática dos filtros homomórficos parte da equação que relaciona uma imagem f(x,y) com suas componentes de iluminância e refletância:
 
 ![formula](./assets/formula_homomorfica.jpg)
