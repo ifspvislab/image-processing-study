@@ -22,7 +22,7 @@ As transformações de intensidade podem ser lineares ou não-lineares. As trans
 
 Onde o parâmetro 𝑐 controla o contraste da imagem resultante, enquanto 𝑏 ajusta seu brilho. A figura 6 apresenta diversos exemplos de transformações lineares e seus respectivos valores de 𝑐 e 𝑏.
 
-![Exemplos de transformações de intensidade lineares](url_da_imagem)
+![Exemplos de transformações de intensidade lineares](./assets/fig6.png)
 
 As transformações não-lineares podem ser descritas por equações tais como:
 
@@ -30,7 +30,7 @@ As transformações não-lineares podem ser descritas por equações tais como:
 
 Produzindo o resultado mostrado na figura 7. Nos aplicativos para processamento de imagens disponíveis atualmente, frequentemente essas transformações são especificadas de forma interativa pelo usuário, utilizando o mouse ou dispositivo equivalente e 'desenhando' a curva desejada.
 
-![Exemplo de transformação de intensidade não-linear](url_da_imagem)
+![Exemplo de transformação de intensidade não-linear](./assets/fig7.png)
 
 O conceito de transformação de intensidade linear pode ser utilizado para implementar uma função que automaticamente expande a escala de tons de cinza de uma imagem para que ela ocupe todo o intervalo possível. Esta função recebe o nome de autoescala. Para um sistema que opera com imagens com 256 níveis de cinza, uma função de autoescala pode ser implementada calculando, para cada pixel com tom de cinza 𝑓, o nível de cinza resultante 𝑔, pela equação:
 
