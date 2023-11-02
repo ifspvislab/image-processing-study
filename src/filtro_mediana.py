@@ -4,21 +4,21 @@ import matplotlib.pyplot as plt
 from utils import vizinhos_celula
 
 
-def filtro_media(imagem: np.ndarray, kernel: int) -> np.ndarray:
+def filtro_mediana(imagem: np.ndarray, kernel: int) -> np.ndarray:
     """
-    Aplica um filtro de média a uma imagem.
+    Aplica um filtro de mediana a uma imagem.
 
     Args:
         imagem (numpy.ndarray): A imagem de entrada.
-        kernel (int): Tamanho do kernel (janela) usado para calcular a média.
+        kernel (int): Tamanho do kernel (janela) usado para calcular a mediana.
 
     Returns:
-        numpy.ndarray: A imagem filtrada pela média.
+        numpy.ndarray: A imagem filtrada pela mediana.
 
     Notes:
-        Esta função aplica um filtro de média à imagem de entrada. O tamanho do kernel
+        Esta função aplica um filtro de mediana à imagem de entrada. O tamanho do kernel
         é especificado pelo argumento 'kernel'. A imagem de saída é a imagem original
-        após a aplicação do filtro de média.
+        após a aplicação do filtro de mediana.
     """
     window_size = kernel // 2
 
@@ -28,15 +28,15 @@ def filtro_media(imagem: np.ndarray, kernel: int) -> np.ndarray:
             # Obtém os valores dos vizinhos da célula atual
             vizinhos = vizinhos_celula(imagem, i, j, window_size)
             
-            # Calcula a média dos valores dos vizinhos e atualiza a célula atual
-            imagem[i, j] = np.mean(vizinhos)
+            # Calcula a mediana dos valores dos vizinhos e atualiza a célula atual
+            imagem[i, j] = np.median(vizinhos)
 
-    # Retorna a imagem após a aplicação do filtro de média
+    # Retorna a imagem após a aplicação do filtro de mediana
     return imagem
 
 
 if __name__ == "__main__":
-    imagem = Image.open("images/imagem_ruido.jpg").convert("L")
+    imagem = Image.open("images/qd3.png").convert("L")
     imagem_array = np.array(imagem)
 
     kernel = [3, 5, 7, 9]
@@ -53,7 +53,7 @@ if __name__ == "__main__":
         plt.subplot(1, len(kernel)+1, index+2)
         plt.title(f'Kernel={k}')
         plt.axis('off')
-        mf_imagem = filtro_media(imagem_array, k)
+        mf_imagem = filtro_mediana(imagem_array, k)
         plt.imshow(mf_imagem, cmap='gray')
 
     plt.show()

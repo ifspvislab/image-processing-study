@@ -1,49 +1,62 @@
 import numpy as np
+from numpy.fft import fft2, fftshift
 from PIL import Image
-from utils import apply_filter
+import matplotlib.pyplot as plt
 
-def homomorphic_filter(image: np.ndarray, D0: float = 20, n: int = 2, a: float = 0.5, b: float = 1.5) -> np.ndarray:
+def filtro_homomorfico(imagem, alpha=0.7, beta=1.3, cutoff=32):
     """
-    Aplica um filtro homomórfico a uma imagem no domínio da frequência.
+    Aplica um filtro homomórfico a uma imagem.
 
     Args:
-        img (numpy.ndarray): A imagem de entrada no domínio espacial.
-        D0 (float): A frequência de corte do filtro homomórfico.
-        n (int): Ordem do filtro homomórfico.
-        a (float): Parâmetro de ênfase de baixas frequências.
-        b (float): Parâmetro de ênfase de altas frequências.
+        imagem (numpy.ndarray): A imagem de entrada.
+        alpha (float): Parâmetro de ganho do filtro homomórfico.
+        beta (float): Parâmetro de nitidez do filtro homomórfico.
+        cutoff (int): Frequência de corte do filtro homomórfico.
 
     Returns:
-        numpy.ndarray: O filtro homomórfico no domínio da frequência.
+        numpy.ndarray: A imagem filtrada pelo filtro homomórfico.
 
     Notes:
-        O filtro homomórfico é usado para realçar as características de uma imagem no domínio da frequência.
-        Ele calcula as coordenadas das frequências no domínio da frequência a partir das dimensões da imagem.
-        Em seguida, calcula a distância no domínio da frequência e cria o filtro homomórfico com base nos parâmetros
-        especificados (D0, n, a, b). O filtro homomórfico resultante é retornado no domínio da frequência.
+        Esta função aplica um filtro homomórfico à imagem de entrada. O filtro é aplicado
+        no domínio da frequência para realçar as informações de baixa e alta frequência
+        da imagem. Os parâmetros alpha, beta e cutoff controlam o comportamento do filtro.
     """
-    # Definir o centro da imagem
-    rows, cols = image.shape
-    center_row, center_col = rows // 2, cols // 2
-
-    # Calcular as coordenadas das frequências no domínio da frequência
-    r, c = np.ogrid[0:rows, 0:cols]
-    r -= center_row
-    c -= center_col
-
-    # Calcular a distância no domínio da frequência
-    D = np.sqrt(r**2 + c**2)
-
-    # Calcular o filtro homomórfico
-    H = (b - a) * (1 - np.exp(-D**2 / (2 * D0**2))) + a
+    imagem = imagem.astype(np.float32)
     
-    return H
+    log_imagem = np.log1p(imagem)
 
+    espectro = fft2(log_imagem)
+    espectro = fftshift(espectro)
+
+    linhas, colunas = imagem.shape
+    centro_x, centro_y = linhas // 2, colunas // 2
+    x = np.arange(colunas) - centro_x
+    y = np.arange(linhas) - centro_y
+    X, Y = np.meshgrid(x, y)
+    D = np.sqrt(X ** 2 + Y ** 2)
+    H = (1 - np.exp(-beta * (D ** 2 / (cutoff ** 2)))) * alpha + 1
+
+    espectro_filtrado = espectro * H
+    espectro_filtrado = np.fft.ifftshift(espectro_filtrado)
+    log_imagem_filtrado = np.fft.ifft2(espectro_filtrado)
+    imagem_filtrada = np.exp(np.real(log_imagem_filtrado))
+    imagem_filtrada = (imagem_filtrada - np.min(imagem_filtrada)) / (np.max(imagem_filtrada) - np.min(imagem_filtrada)) * 255
+
+    return imagem_filtrada.astype(np.uint8)
 
 if __name__ == "__main__":
-    imagem = Image.open("images/3.jpg").convert("L")
+    imagem = Image.open("images/imagem_homo.jpg").convert("L")
     imagem_array = np.array(imagem)
-    filtro = homomorphic_filter(imagem_array)
-    imagem_filtro = apply_filter(imagem_array, filtro)
-    Image.fromarray(imagem_filtro).show()
-    # imagem_filtro.save("images/3-filter-butter.png")
+
+    imagem_filtrada = filtro_homomorfico(imagem_array)
+
+    plt.figure(figsize=(10, 5))
+    plt.subplot(1, 2, 1)
+    plt.title("Imagem Original")
+    plt.imshow(imagem, cmap='gray')
+    plt.axis('off')
+    plt.subplot(1, 2, 2)
+    plt.title("Imagem Filtrada")
+    plt.imshow(imagem_filtrada, cmap='gray')
+    plt.axis('off')
+    plt.show()

@@ -2,7 +2,8 @@ import numpy as np
 from numpy.lib.stride_tricks import as_strided
 from numpy.fft import fft2, fftshift, ifft2, ifftshift
 
-def sliding_window(arr, window_size):
+
+def janela_deslizante(arr, window_size):
     """
     Constrói uma visualização de janela deslizante da matriz.
 
@@ -35,7 +36,8 @@ def sliding_window(arr, window_size):
                arr.shape[1] * arr.itemsize, arr.itemsize)
     return as_strided(arr, shape=shape, strides=strides)
 
-def cell_neighbors(arr, i, j, d):
+
+def vizinhos_celula(arr, i, j, d):
     """
     Retorna os vizinhos da célula (i, j) até uma distância d.
 
@@ -54,7 +56,7 @@ def cell_neighbors(arr, i, j, d):
         criar uma janela deslizante e, em seguida, extrai os vizinhos dentro dessa
         janela.
     """
-    w = sliding_window(arr, 2*d+1)
+    w = janela_deslizante(arr, 2*d+1)
 
     ix = np.clip(i - d, 0, w.shape[0]-1)
     jx = np.clip(j - d, 0, w.shape[1]-1)
@@ -66,7 +68,8 @@ def cell_neighbors(arr, i, j, d):
 
     return w[ix, jx][i0:i1, j0:j1].ravel()
 
-def apply_filter(image: np.ndarray, H: np.ndarray) -> np.ndarray:
+
+def aplicar_filtro_Fimagem(image: np.ndarray, H: np.ndarray) -> np.ndarray:
     """
     Aplica um filtro no domínio de Fourier a uma imagem.
 
@@ -97,10 +100,34 @@ def apply_filter(image: np.ndarray, H: np.ndarray) -> np.ndarray:
     img_fourier = fftshift(fft2(image))
 
     # Aplica o filtro no domínio de Fourier
-    filtered_fourier = img_fourier * H
+    filtro_em_fourier = img_fourier * H
 
     # Realiza a Transformada Inversa de Fourier para obter a imagem filtrada
-    filtered_img = np.real(ifft2(ifftshift(filtered_fourier)))
+    imagem_filtrada = np.real(ifft2(ifftshift(filtro_em_fourier)))
 
-    return filtered_img
+    return imagem_filtrada
 
+
+def distancia_dominio_frequencia(image: np.ndarray) -> np.ndarray:
+    linha, coluna = image.shape
+    indices_linhas = np.zeros((linha, coluna))
+    indices_colunas = np.zeros((linha, coluna))
+
+    if linha == coluna:
+        for i in range(linha):
+            for j in range(coluna):
+                indices_linhas[i, j] = i
+        indices_colunas = indices_linhas.T
+    else:
+        for i in range(linha):
+            for j in range(coluna):
+                indices_linhas[i, j] = i
+                indices_colunas[i, j] = j
+
+    D = np.zeros((linha, coluna))
+    for i in range(linha):
+        for j in range(coluna):
+            D[i, j] = np.sqrt(pow((indices_linhas[i, j] - linha // 2),
+                              2) + pow((indices_colunas[i, j] - coluna // 2), 2))
+
+    return D

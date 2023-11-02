@@ -1,8 +1,10 @@
 from PIL import Image
 import numpy as np
-from utils import apply_filter
+import matplotlib.pyplot as plt
+from utils import aplicar_filtro_Fimagem, distancia_dominio_frequencia
 
-def butterWorth_filter(image: np.ndarray, D0: float, n: int, lowpass: bool=True) -> np.ndarray:
+
+def filtro_butterWorth(imagem: np.ndarray, D0: float, n: int, passa_baixa: bool = True) -> np.ndarray:
     """
     Cria um filtro Butterworth no domínio de frequência.
 
@@ -20,27 +22,9 @@ def butterWorth_filter(image: np.ndarray, D0: float, n: int, lowpass: bool=True)
         na frequência de corte D0, na ordem n e na opção de filtro passa-baixas ou passa-altas.
         O filtro é retornado como uma matriz que pode ser usada para filtrar a imagem.
     """
-    row, col = image.shape
-    rowsIndex = np.zeros((row, col))
-    colsIndex = np.zeros((row, col))
-    
-    if row == col:
-        for i in range(row):
-            for j in range(col):
-                rowsIndex[i, j] = i
-        colsIndex = rowsIndex.T
-    else:
-        for i in range(row):
-            for j in range(col):
-                rowsIndex[i, j] = i
-                colsIndex[i, j] = j
-    
-    D = np.zeros((row, col))
-    for i in range(row):
-        for j in range(col):
-            D[i, j] = np.sqrt(pow((rowsIndex[i, j] - row // 2), 2) + pow((colsIndex[i, j] - col // 2), 2))
-    
-    if lowpass:
+    D = distancia_dominio_frequencia(imagem)
+
+    if passa_baixa:
         L = 1 / (1 + (D / D0) ** (2 * n))
         return L
     else:
@@ -48,10 +32,27 @@ def butterWorth_filter(image: np.ndarray, D0: float, n: int, lowpass: bool=True)
         H = 1 / (1 + (D0 / D) ** (2 * n))
         return H
 
+
 if __name__ == "__main__":
-    imagem = Image.open("images/3.jpg").convert("L")
+    imagem = Image.open("images/imagem_teste_filtros.jpg").convert("L")
     imagem_array = np.array(imagem)
-    filtro = butterWorth_filter(imagem_array, 20, 2)
-    imagem_filtro = apply_filter(imagem_array, filtro)
-    Image.fromarray(imagem_filtro).show()
-    # imagem_filtro.save("images/3-filter-butter.png")
+
+    frequencias = [5, 15, 30, 80]
+    ordens = [1, 2, 3]
+
+    plt.figure(figsize=(len(ordens)*3, len(frequencias)*3))
+    plt.suptitle(
+        "Imagens filtradas com diferentes frequências de corte e ordens")
+
+    for row, D0 in enumerate(frequencias):
+        for col, n in enumerate(ordens):
+            plt.subplot(len(frequencias),
+                        len(ordens),
+                        row*len(ordens)+col+1)
+            plt.title(f'D0={D0},n={n}')
+            plt.axis('off')
+            bw_filtro = filtro_butterWorth(imagem_array, D0, n, True)
+            bwf_imagem = aplicar_filtro_Fimagem(imagem_array, bw_filtro)
+            plt.imshow(bwf_imagem, cmap='gray')
+
+    plt.show()

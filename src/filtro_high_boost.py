@@ -1,11 +1,13 @@
 from PIL import Image
 import numpy as np
-from utils import apply_filter
-from filtro_passa_ideal import ideal_filter
+import matplotlib.pyplot as plt
+from utils import aplicar_filtro_Fimagem
+from filtro_passa_ideal import filtro_passa_ideal
 
-def high_boost(image: np.ndarray, lowpass_filtered_image: np.ndarray, A: float) -> Image:
+
+def high_boost(image: np.ndarray, lowpass_filtered_image: np.ndarray, A: float) -> np.ndarray:
     """
-    Apply the high-frequency enhancement technique (high-boost) to an image.
+    Aplique a técnica de aprimoramento de alta frequência (high-boost) a uma imagem.
 
     Args:
         image (numpy.ndarray): A imagem original.
@@ -22,14 +24,25 @@ def high_boost(image: np.ndarray, lowpass_filtered_image: np.ndarray, A: float) 
         frequências.
     """
     result = A * image - lowpass_filtered_image
-    return Image.fromarray(result)
+    return result
 
 
 if __name__ == "__main__":
-    imagem = Image.open("images/3.jpg").convert("L")
+    imagem = Image.open("images/imagem_teste_filtros.jpg").convert("L")
     imagem_array = np.array(imagem)
-    filtro = ideal_filter(imagem_array, 20, 2)
-    imagem_passa = apply_filter(imagem_array, filtro)
-    imagem = high_boost(imagem_array, imagem_passa, 2)
-    imagem.show()
-    # imagem_filtro.save("images/3-filter-butter.png")
+
+    frequencias = [1.2, 5, 10, 15, 50, 100]
+
+    plt.figure(figsize=(len(frequencias)*3, 3))
+    plt.suptitle("Imagens filtradas com diferentes frequências de corte")
+
+    for index, D0 in enumerate(frequencias):
+        plt.subplot(1, len(frequencias), index+1)
+        plt.title(f'D0={D0}')
+        plt.axis('off')
+        i_filtro = filtro_passa_ideal(imagem_array, D0, True)
+        i_imagem = aplicar_filtro_Fimagem(imagem_array, i_filtro)
+        hb_imagem = high_boost(imagem_array, i_imagem, 2)
+        plt.imshow(hb_imagem, cmap='gray')
+
+    plt.show()
