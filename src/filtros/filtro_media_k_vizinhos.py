@@ -18,18 +18,18 @@ def k_proximos_valor(array: np.ndarray, value: float, k: int):
         numpy.ndarray: Um array contendo os k números mais próximos ao valor.
     """
     # Calcula as diferenças absolutas entre o valor escolhido e os elementos do vetor
-    differences = np.abs(array - value)
+    diferencas = np.abs(array - value)
 
     # Cria um índice ordenado dos elementos do vetor com base nas diferenças
-    sorted_indices = np.argsort(differences)
+    indices_ordenados = np.argsort(diferencas)
 
     # Seleciona os primeiros k índices ordenados
-    k_nearest_indices = sorted_indices[:k]
+    indices_proximos_k = indices_ordenados[:k]
 
     # Obtém os k números mais próximos usando os índices selecionado
-    nearest_numbers = array[k_nearest_indices]
+    proximos = array[indices_proximos_k]
 
-    return nearest_numbers
+    return proximos
 
 
 def filtro_media_k_vizinhos_proximos(image: np.ndarray, kernel: int, k_neighbors: int) -> np.ndarray:
@@ -50,20 +50,20 @@ def filtro_media_k_vizinhos_proximos(image: np.ndarray, kernel: int, k_neighbors
     """
     window_size = kernel//2
 
-    rows, cols = image.shape
+    linhas, colunas = image.shape
 
-    for i in range(rows):
-        for j in range(cols):
-            neighbors = vizinhos_celula(image, i, j, window_size)
-            close_neighbors = k_proximos_valor(
-                neighbors, image[i, j], k_neighbors)
-            image[i, j] = np.mean(close_neighbors)
+    for i in range(linhas):
+        for j in range(colunas):
+            vizinhos = vizinhos_celula(image, i, j, window_size)
+            vizinhos_proximos = k_proximos_valor(
+                vizinhos, image[i, j], k_neighbors)
+            image[i, j] = np.mean(vizinhos_proximos)
 
     return image
 
 
 if __name__ == "__main__":
-    imagem = Image.open("images/imagem_ruido.jpg").convert("L")
+    imagem = Image.open("src/assets/imagem_ruido.jpg").convert("L")
     imagem_array = np.array(imagem)
     
     k_vizinhos = [5, 15, 25]

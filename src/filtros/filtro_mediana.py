@@ -36,7 +36,7 @@ def filtro_mediana(imagem: np.ndarray, kernel: int) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    imagem = Image.open("images/qd3.png").convert("L")
+    imagem = Image.open("src/assets/qd3.png").convert("L")
     imagem_array = np.array(imagem)
 
     kernel = [3, 5, 7, 9]

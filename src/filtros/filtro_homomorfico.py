@@ -45,7 +45,7 @@ def filtro_homomorfico(imagem, alpha=0.7, beta=1.3, cutoff=32):
     return imagem_filtrada.astype(np.uint8)
 
 if __name__ == "__main__":
-    imagem = Image.open("images/imagem_homo.jpg").convert("L")
+    imagem = Image.open("src/assets/imagem_homo.jpg").convert("L")
     imagem_array = np.array(imagem)
 
     imagem_filtrada = filtro_homomorfico(imagem_array)

@@ -36,7 +36,7 @@ def filtro_media(imagem: np.ndarray, kernel: int) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    imagem = Image.open("images/imagem_ruido.jpg").convert("L")
+    imagem = Image.open("src/assets/imagem_ruido.jpg").convert("L")
     imagem_array = np.array(imagem)
 
     kernel = [3, 5, 7, 9]

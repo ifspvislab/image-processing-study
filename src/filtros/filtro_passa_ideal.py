@@ -33,7 +33,7 @@ def filtro_passa_ideal(image: np.ndarray, D0: float, passa_baixa: bool = False) 
 
 
 if __name__ == "__main__":
-    imagem = Image.open("images/imagem_teste_filtros.jpg").convert("L")
+    imagem = Image.open("src/assets/imagem_teste_filtros.jpg").convert("L")
     imagem_array = np.array(imagem)
 
     frequencias = [1.2, 5, 10, 15, 50, 100]

@@ -34,7 +34,7 @@ def filtro_butterWorth(imagem: np.ndarray, D0: float, n: int, passa_baixa: bool 
 
 
 if __name__ == "__main__":
-    imagem = Image.open("images/imagem_teste_filtros.jpg").convert("L")
+    imagem = Image.open("src/assets/imagem_teste_filtros.jpg").convert("L")
     imagem_array = np.array(imagem)
 
     frequencias = [5, 15, 30, 80]
