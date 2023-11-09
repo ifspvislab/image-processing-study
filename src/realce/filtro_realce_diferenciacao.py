@@ -26,7 +26,7 @@ def filtro_diferenciacao(image):
     return imagem_borda
 
 if __name__ == "__main__":
-    imagem = Image.open("assets/foto1.jpg").convert("L")
+    imagem = Image.open("src/assets/foto1.jpg").convert("L")
 
     # Aplica o filtro
     imagem_diferenciacao = filtro_diferenciacao(imagem)

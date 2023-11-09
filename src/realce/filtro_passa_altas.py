@@ -10,7 +10,7 @@ def filtro_passa_altas(image):
     return imagem_filtrada
 
 if __name__ == "__main__":
-    imagem = Image.open("assets/foto1.jpg").convert("L")
+    imagem = Image.open("src/assets/foto1.jpg").convert("L")
 
     # Aplica o filtro passa-alta
     imagem_passa_altas = filtro_passa_altas(imagem)
