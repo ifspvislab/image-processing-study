@@ -2,8 +2,8 @@ from PIL import Image, ImageChops
 import matplotlib.pyplot as plt
 
 # Carregando as imagens
-imagem1 = Image.open('assets/imagem1.jpg')
-imagem2 = Image.open('assets/imagem2.jpg')
+imagem1 = Image.open('src/assets/imagem1.jpg')
+imagem2 = Image.open('src/assets/imagem2.jpg')
 
 # Converter as imagens para modo binário (1-bit)
 imagem1_bin = imagem1.convert('1')

@@ -2,8 +2,8 @@ from PIL import Image, ImageChops
 import matplotlib.pyplot as plt
 
 # Carregue as imagens
-imagem1 = Image.open('assets/imagem1.jpg')
-imagem2 = Image.open('assets/imagem2.jpg')
+imagem1 = Image.open('src/assets/imagem1.jpg')
+imagem2 = Image.open('src/assets/imagem2.jpg')
 
 # Certifique-se de que as imagens tenham o mesmo tamanho
 if imagem1.size != imagem2.size:

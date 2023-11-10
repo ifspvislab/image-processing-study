@@ -2,7 +2,7 @@ from PIL import Image, ImageOps
 import matplotlib.pyplot as plt
 
 # Carregue a imagem
-imagem = Image.open('assets/imagem1.jpg')
+imagem = Image.open('src/assets/imagem1.jpg')
 
 # Certifique-se de que a imagem esteja no modo binário (1-bit)
 imagem_bin = imagem.convert('1')
