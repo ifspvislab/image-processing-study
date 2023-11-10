@@ -34,7 +34,7 @@ def filtro_butterWorth(imagem: np.ndarray, D0: float, n: int, passa_baixa: bool 
 
 
 if __name__ == "__main__":
-    imagem = Image.open("src/assets/imagem_teste_filtros.jpg").convert("L")
+    imagem = Image.open("src/assets/pato_livro_butterworth.jpg").convert("L")
     imagem_array = np.array(imagem)
 
     frequencias = [5, 15, 30, 80]
@@ -51,7 +51,7 @@ if __name__ == "__main__":
                         row*len(ordens)+col+1)
             plt.title(f'D0={D0},n={n}')
             plt.axis('off')
-            bw_filtro = filtro_butterWorth(imagem_array, D0, n, True)
+            bw_filtro = filtro_butterWorth(imagem_array, D0, n, False)
             bwf_imagem = aplicar_filtro_Fimagem(imagem_array, bw_filtro)
             plt.imshow(bwf_imagem, cmap='gray')
 

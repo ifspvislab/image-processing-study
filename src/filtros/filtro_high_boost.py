@@ -28,7 +28,7 @@ def high_boost(image: np.ndarray, lowpass_filtered_image: np.ndarray, A: float) 
 
 
 if __name__ == "__main__":
-    imagem = Image.open("src/assets/imagem_teste_filtros.jpg").convert("L")
+    imagem = Image.open("src/assets/imagem_homo.jpg").convert("L")
     imagem_array = np.array(imagem)
 
     frequencias = [1.2, 5, 10, 15, 50, 100]
